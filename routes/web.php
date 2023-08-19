@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\IndexController;
 
 
 /*
@@ -15,9 +16,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::inertia('/', 'index');;
+Route::get('/', [IndexController::class, 'index']);
 Route::get('/users/{user}', [UserController::class, 'show']);
-/*
+
+/* Examples
+Route::inertia('/', 'index');
 Route::get('/', function () {
     // return Inertia::render('index');
     // return view('welcome');

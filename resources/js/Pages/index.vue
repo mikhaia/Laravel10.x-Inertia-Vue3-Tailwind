@@ -1,22 +1,32 @@
 <script setup>
-// import Layout from '@/Layouts/Authenticated.vue';
+import Layout from './Layout.vue'
 import { Head } from '@inertiajs/inertia-vue3';
- 
-// const props = defineProps(['user']);
 </script>
  
 <template>
-    <Head title="User Profile" />
- 
-    <Layout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Profile
-            </h2>
-        </template>
- 
-        <div class="py-12">
-            Hello, Test
+  <Layout>
+    <Head title="Welcome page" />
+    <div class="bg-white">
+      <div class="relative isolate px-6 pt-14 lg:px-8">
+        <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+          <div class="text-center">
+            <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+              Welcome to your app!
+            </h1>
+            <p class="mt-6 text-lg leading-8 text-gray-600">
+              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.
+            </p>
+            <div class="mt-10 flex items-center justify-center gap-x-6">
+              <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                🚀 Get started
+              </a>
+              <a href="#" class="text-sm font-semibold leading-6 text-gray-900">
+                Learn more ➡️
+              </a>
+            </div>
+          </div>
         </div>
-    </Layout>
+      </div>
+    </div>
+  </Layout>
 </template>

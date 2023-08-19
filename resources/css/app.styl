@@ -1,5 +1,23 @@
-body
-    background: black
-
-html
-    background: green
+/* I just love Stylus so much */
+.sidenav
+    height 100vh
+    list-style none
+    li
+        background #fff
+        &:last-child a
+            border-bottom-right-radius 0
+        &:first-child a
+            border-top-right-radius 0
+    a
+        display block
+        padding 20px
+        color #fff
+        position relative
+        background #1F2937
+        border-radius 0 10px 10px 0
+    .active
+        background #1F2937
+        a
+            background #fff
+            color #000
+            border-radius 10px 0 0 10px
