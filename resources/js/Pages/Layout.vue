@@ -12,6 +12,7 @@ import { Link } from '@inertiajs/vue3'
         <li :class="{'active' : $page.component === 'Show' }">
           <Link href="/users/1">👤 User</Link>
         </li>
+        <li><a></a></li>
       </nav>
     </aside>
     
