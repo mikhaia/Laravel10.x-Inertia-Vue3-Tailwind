@@ -3,7 +3,6 @@
 - Inertia 1
 - Tailwind
 - Vite 3
-- Tailwind
 - Stylus
 
 # ⭐ Installation
