@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IndexController;
-
+use App\Http\Controllers\BoardController;
+use Inertia\Inertia;
+use App\Models\Board;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +18,12 @@ use App\Http\Controllers\IndexController;
 |
 */
 
+Inertia::share('appName', config('app.name'));
+Inertia::share('boards', Board::where('user_id', 1)->get());
+
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/users/{user}', [UserController::class, 'show']);
+Route::get('/board/{id}', [BoardController::class, 'show']);
 
 /* Examples
 Route::inertia('/', 'index');
