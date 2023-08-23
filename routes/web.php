@@ -23,7 +23,12 @@ Inertia::share('boards', Board::where('user_id', 1)->get());
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/users/{user}', [UserController::class, 'show']);
-Route::get('/board/{id}', [BoardController::class, 'show']);
+// Route::get('/boards/{id}', [BoardController::class, 'show']);
+// Route::resource('boards', 'BoardController');
+Route::resource('boards', BoardController::class);
+// Route::controller('boards',  BoardController::class);
+
+// BoardsController::class
 
 /* Examples
 Route::inertia('/', 'index');

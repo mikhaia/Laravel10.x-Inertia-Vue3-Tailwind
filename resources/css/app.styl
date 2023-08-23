@@ -1,42 +1,5 @@
-/* I just love Stylus so much */
-.sidenav
-    list-style none
-    display flex
-    flex-direction column
-    li
-        background #fff
-    a
-        display block
-        padding 20px
-        color #fff
-        position relative
-        background #1F2937
-    .active
-        background #1F2937
-        position relative
-        &:before
-            content ''
-            position absolute
-            width 10px
-            height 10px
-            background #fff
-            top -10px
-            right 0
-        a
-            background #fff
-            color #000
-            border-radius 10px 0 0 10px
-            &:before
-                content ''
-                position absolute
-                background #1F2937
-                border-radius 10px
-                width 20px
-                height 20px
-                top -20px
-                right 0
-        + li a
-            border-top-right-radius 10px
+@require '_sidebar.styl'
+@require '_form'
 
 .glass
     background rgba(255, 255, 255, 0.2)
@@ -62,4 +25,86 @@
     background #eee
     border-radius 10px
     overflow hidden
+    position relative
+    min-height 32px
+    .title
+        font-weight bold
+        position absolute
+        bottom 0
+        background rgba(255,255,255,.5)
 
+
+.edit-board-btn
+    position relative
+    z-index 2
+    float right
+    font-size 2rem
+    margin 5px
+
+.modal
+    position fixed
+    z-index 100
+    top 0
+    bottom 0
+    right 0
+    left 0
+    background rgba(0,0,0,.5)
+    display flex
+    align-items center
+    .container
+        background rgba(255, 255, 255, 0.7)
+        width 340px
+        margin auto
+        padding 10px 15px
+    .title
+        font-size 21px
+        font-weight bold
+        line-height 40px
+        white-space nowrap
+
+button.button
+    background #1F2937
+    color #fff
+    border-radius: 3px
+    line-height 40px
+    &:hover
+        background #000
+
+.btn-close
+    width 40px
+    height 40px
+    border-radius 40px
+    position relative
+    z-index 1
+    cursor pointer
+    display inline-block
+    float right
+    &:before
+        content '+'
+        color #337AB7
+        position absolute
+        z-index 2
+        transform rotate(45deg)
+        font-size 50px
+        line-height 45px
+        top -5px
+        left 6px
+        transition all 0.3s cubic-bezier(0.77, 0, 0.2, 0.85)
+    &:after
+        content ''
+        position absolute
+        top 0
+        left 0
+        width 100%
+        height 100%
+        border-radius 100%
+        background #337AB7
+        z-index 1
+        transition all 0.3s cubic-bezier(0.77, 0, 0.2, 0.85)
+        transform scale(0.01)
+    &:hover
+        &:after
+            transform scale(1)
+        &:before
+            transform scale(0.8) rotate(45deg)
+            color #fff

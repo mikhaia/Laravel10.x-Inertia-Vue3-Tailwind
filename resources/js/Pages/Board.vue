@@ -1,13 +1,12 @@
 <script setup>
 import Layout from './Layout.vue'
 import { Head } from '@inertiajs/vue3'
-import boardModal from './Modal/Board.vue';
+// import boardModal from './Modals/Board.vue';
 
 defineProps({ board: Object, columns: Object })
 
 function editColumn() {
-  boardModal.methods.open();
-  // console.log('boardModal',boardModal);
+  // boardModal.methods.open();
 }
 </script>
 
@@ -25,7 +24,7 @@ function editColumn() {
                 </h4>
                 <div v-for="card in column.cards" class="card cursor-pointer shadow-md">
                     <img :src="card.cover" />
-                    <h6 class="px-2 py-1">{{ card.title }}</h6>
+                    <h6 class="px-2 py-1 title">{{ card.title }}</h6>
                 </div>
             </div>
         </div>
@@ -41,5 +40,4 @@ function editColumn() {
          -->
       </div>
   </Layout>
-  <boardModal></boardModal>
 </template>
