@@ -15,6 +15,7 @@ const converter = new showdown.Converter(),
   <Layout>
     <Head title="Welcome page" />
     <div>
+      <Toast></Toast>
       
     </div>
     <div class="bg-white">

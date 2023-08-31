@@ -4,6 +4,8 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import '../css/tailwind.css';
 
+import Toast from './Pages/Inc/Toast.vue';
+
 createInertiaApp({
   resolve: name => {
     // const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
@@ -14,6 +16,7 @@ createInertiaApp({
   },
   setup({ el, App, props, plugin }) {
     const app = createApp({ render: () => h(App, props) })
+      .mixin({ components: {Toast}})
       .use(plugin);
         // TODO: Move filters outside
         app.config.globalProperties.$filters = {

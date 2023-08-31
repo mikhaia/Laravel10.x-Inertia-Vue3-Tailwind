@@ -4,8 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\BoardController;
+
+use App\Http\Controllers\User\SteamAuthController;
+use App\Http\Controllers\User\GoogleAuthController;
+use App\Http\Controllers\User\AuthController;
 use Inertia\Inertia;
 use App\Models\Board;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,22 +26,28 @@ use App\Models\Board;
 */
 
 Inertia::share('appName', config('app.name'));
-Inertia::share('boards', Board::where('user_id', 1)->get());
-
-Route::get('/', [IndexController::class, 'index']);
-Route::get('/users/{user}', [UserController::class, 'show']);
-// Route::get('/boards/{id}', [BoardController::class, 'show']);
-// Route::resource('boards', 'BoardController');
-Route::resource('boards', BoardController::class);
-// Route::controller('boards',  BoardController::class);
-
-// BoardsController::class
-
-/* Examples
-Route::inertia('/', 'index');
-Route::get('/', function () {
-    // return Inertia::render('index');
-    // return view('welcome');
-    // Route::inertia('/about', 'About');
+Inertia::share('toast.success', fn() => session()->get('success'));
+Inertia::share('toast.error', fn() => session()->get('error'));
+/*
+Inertia::share('toast', function() { 
+  if(session()->get('errors')) return session()->get('errors')->all();
 });
 */
+
+
+Route::get('auth', [AuthController::class, 'index'])->name('login');
+Route::post('auth', [AuthController::class, 'login']);
+Route::get('steam', SteamAuthController::class);
+Route::get('google', GoogleAuthController::class);
+Route::get('logout', [AuthController::class, 'logout']);
+
+Route::middleware(['auth'])->group(function () {
+  
+  // TODO: avoid routes in migratations
+  Inertia::share('boards', Board::where('user_id', 1)->get());
+  Inertia::share('user', fn() => Auth::user());
+
+  Route::get('/', [IndexController::class, 'index']);
+  Route::get('/users/{user}', [UserController::class, 'show']);
+  Route::resource('boards', BoardController::class);
+});

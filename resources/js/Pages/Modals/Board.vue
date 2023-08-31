@@ -2,6 +2,7 @@
   import { ref } from 'vue';
   let data = ref();
   let title = ref();
+  let displayDetails = ref();
 
   export default {
     name: 'boardModal',
@@ -43,8 +44,10 @@ function submit() {
             <input type="text" v-model="form.title" id="title" placeholder="Title">
             <label for="title">Title</label>
           </div>
-          <a class="cutter">⏬ Details ⏬</a>
-          <div class="hide">
+          <a class="cutter" @click="displayDetails = !displayDetails" :class="{expand: displayDetails}">
+            <span class="icon">⏬</span> Details <span class="icon">⏬</span>
+          </a>
+          <div :class="{ hidden: displayDetails }">
             <div class="form-file form-icon">
               <label for="icon">
                 <img v-bind:src="form.icon" width="50">
@@ -73,9 +76,9 @@ function submit() {
                 </label>
               </div>
             </div>
-            <div>
-              <button type="submit" class="button w-full">Save</button>
-            </div>
+          </div>
+          <div>
+            <button type="submit" class="button w-full">Save</button>
           </div>
         </form>
       </div>

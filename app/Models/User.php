@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
+        'steam_id',
+        'google_id'
     ];
 
     /**

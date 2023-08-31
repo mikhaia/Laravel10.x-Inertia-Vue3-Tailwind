@@ -10,7 +10,7 @@ const openModal = (data) => {
 </script>
 
 <template>
-<div class="grid grid-cols-7">
+<div class="grid grid-cols-7 h-screen">
   <aside class="col-span-1 bg-gray-800">
       <h1 class="text-white	text-4xl font-bold text-center py-4">{{ page.props.appName }}</h1>
       <nav class="sidenav">
@@ -30,6 +30,10 @@ const openModal = (data) => {
     </aside>
     
     <main class="col-span-6 relative">
+      <div class="user-panel">
+        {{ page.props.user.name }}
+        <Link href="/logout" class="exit">x</Link>
+      </div>
       <slot />
       <boardModal></boardModal>
     </main>

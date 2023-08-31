@@ -1,18 +1,25 @@
 .form
     .form-input
         position relative
-        padding 20px 0
+        padding-top 20px
+        padding-bottom 10px
         clear both
         input
+            outline none
             padding 5px 10px
-            border 1px solid #333
-            border-radius 3px
+            color #777
+            border 1px solid
+            border-radius 5px
             width 100%
+            &:focus
+                box-shadow 0 0 5px #777
+                border-color #9a365c
             &::placeholder
                 color #fff
             &:not(:placeholder-shown) + label,
             &:focus + label
                 top -5px
+                left 0px
         label
             position absolute
             left 10px
@@ -22,6 +29,11 @@
         display block
         text-align center
         cursor pointer
+        &.expand .icon
+            transform rotate(-180deg)
+        .icon
+            display inline-block
+            transition all .3s ease-out
     .form-file
         padding 10px 0
         img
@@ -35,7 +47,8 @@
             input
                 display none
             &:hover:before
-                content 'Click to hange Image'
+                // todo use pos
+                content 'Click to change Image'
                 position absolute
                 display flex
                 left 0
