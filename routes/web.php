@@ -42,9 +42,7 @@ Route::get('google', GoogleAuthController::class);
 Route::get('logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {
-  
-  // TODO: avoid routes in migratations
-  Inertia::share('boards', Board::where('user_id', 1)->get());
+  Inertia::share('boards', fn() => Board::where('user_id', Auth::id())->get());
   Inertia::share('user', fn() => Auth::user());
 
   Route::get('/', [IndexController::class, 'index']);

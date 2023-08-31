@@ -1,21 +1,25 @@
 <script setup>
 import Layout from './Layout.vue'
 import { Head } from '@inertiajs/vue3'
+// import { usePage } from '@inertiajs/vue3'
 // import boardModal from './Modals/Board.vue';
-
 defineProps({ board: Object, columns: Object })
 
 function editColumn() {
   // boardModal.methods.open();
 }
+// const page = usePage();
+// console.log('p', page.props.board);
+</script>
+
+<script>
 </script>
 
 <template>
   <Layout>
     <Head title="Board " />
-    <div class="grid h-screen"
-        :style="{ backgroundImage: 'url('+board.background+')'}">
-
+    <div class="grid h-screen w-full board"
+        :style="[board?.background ? { backgroundImage: 'url('+board?.background+')'} : {}]">
         <div class="columns">
             <div v-for="column in columns" class="glass column">
                 <h4 class="text-lg font-bold px-2 py-1" :class="{'text-white': board.dark }">
@@ -28,16 +32,6 @@ function editColumn() {
                 </div>
             </div>
         </div>
-        <!-- 
-
-        
-        <div>
-          <h1 class="text-4xl">Hello Board!</h1>
-          <div class="py-3">Here is your details:</div>
-          <code class="block whitespace-pre border-dotted border-2 p-4" v-text="board"></code>
-          {{ $filters.console(columns) }}
-        </div>
-         -->
       </div>
   </Layout>
 </template>

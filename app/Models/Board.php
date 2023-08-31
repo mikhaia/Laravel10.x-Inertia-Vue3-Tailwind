@@ -10,4 +10,14 @@ class Board extends Model
 {
     use HasFactory;
     use HasUlids;
+
+    protected $fillable = [
+        'title',
+        'user_id',
+        'icon',
+        'background',
+        'position',
+        'public',
+        'dark',
+    ];
 }

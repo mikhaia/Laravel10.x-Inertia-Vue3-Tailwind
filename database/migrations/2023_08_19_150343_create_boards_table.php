@@ -15,11 +15,11 @@ return new class extends Migration
             $table->ulid('id');
             $table->integer('user_id');
             $table->string('title');
-            $table->string('icon');
-            $table->string('background');
+            $table->string('icon')->nullable();
+            $table->string('background')->nullable();
             $table->tinyInteger('position')->default(0);
             $table->boolean('public')->default(false);
-            $table->boolean('dark');
+            $table->boolean('dark')->default(false);
             $table->timestamps();
         });
     }

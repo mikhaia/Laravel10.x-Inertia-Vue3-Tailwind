@@ -14,6 +14,9 @@ const openModal = (data) => {
   <aside class="col-span-1 bg-gray-800">
       <h1 class="text-white	text-4xl font-bold text-center py-4">{{ page.props.appName }}</h1>
       <nav class="sidenav">
+        <li>
+          <a @click="openModal({title: 'New Board'})" class="cursor-pointer">🆕 Create New Board</a>
+        </li>
         <li :class="{'active' : $page.url.startsWith('/boards/'+item.id) }"
           v-for="item in page.props.boards">
           <button class="edit-board-btn" @click="openModal(item)">⚙️</button>

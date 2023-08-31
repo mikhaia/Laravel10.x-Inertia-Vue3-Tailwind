@@ -1,8 +1,11 @@
 <script>
   import { ref } from 'vue';
+  import { useForm } from '@inertiajs/vue3';
   let data = ref();
   let title = ref();
   let displayDetails = ref();
+  let form = ref();
+  let errors = ref();
 
   export default {
     name: 'boardModal',
@@ -10,25 +13,56 @@
       return {data, title};
     },
     methods: {
-      open(formData) {
-        data.value = formData;
-        title.value = formData.title;
+      open(value) {
+        const formData = {
+          title: value.title,
+          icon: value.icon,
+          background: value.background,
+          public: value.public || false,
+          dark: value.dark || false,
+        };
+        if (value.id) {
+          formData._method = 'PUT';
+        }
+        form = useForm(formData);
+        data.value = value;
+        title.value = value.title;
       },
       close() {
         data.value = null;
+      },
+      submit() {
+        if (data.value.id) {
+          form.post('/boards/' + data.value.id, {
+            forceFormData: true,
+            onError: (err) => {
+              errors = err.msg;
+            },
+            onSuccess: () => {
+              console.log('ello');
+            }
+          })
+        } else {
+          form.post('/boards', {
+            forceFormData: true,
+            onError: (err) => {
+              errors = err.msg;
+            },
+            onSuccess: () => {
+              console.log('ello');
+            }
+          })
+        }
       }
     }
   };
 </script>
 
 <script setup>
-import { reactive } from 'vue'
-import { router } from '@inertiajs/vue3'
-const form = reactive(data)
 
-function submit() {
-  router.put('/board', form, {forceFormData: true});
-}
+// 
+
+
 </script>
 
 <template>
@@ -47,10 +81,10 @@ function submit() {
           <a class="cutter" @click="displayDetails = !displayDetails" :class="{expand: displayDetails}">
             <span class="icon">⏬</span> Details <span class="icon">⏬</span>
           </a>
-          <div :class="{ hidden: displayDetails }">
+          <div :class="{ hidden: !displayDetails }">
             <div class="form-file form-icon">
               <label for="icon">
-                <img v-bind:src="form.icon" width="50">
+                <img v-bind:src="form.icon" width="50" v-if="form.icon">
                 Icon
                 <input type="file" @input="form.icon = $event.target.files[0]" id="icon" placeholder="Icon" style="display: none;">
               </label>
@@ -72,7 +106,7 @@ function submit() {
               <div class="form-checkbox flex-1">
                 <label>
                   <input type="checkbox" v-model="form.dark">
-                  Dark theme
+                  Dark back
                 </label>
               </div>
             </div>
