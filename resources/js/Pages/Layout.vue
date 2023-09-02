@@ -10,6 +10,7 @@ const openModal = (data) => {
 </script>
 
 <template>
+<Toast></Toast>
 <div class="grid grid-cols-7 h-screen">
   <aside class="col-span-1 bg-gray-800">
       <h1 class="text-white	text-4xl font-bold text-center py-4">{{ page.props.appName }}</h1>

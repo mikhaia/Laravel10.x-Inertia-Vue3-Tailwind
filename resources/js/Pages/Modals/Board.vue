@@ -1,6 +1,7 @@
 <script>
   import { ref } from 'vue';
   import { useForm } from '@inertiajs/vue3';
+  import Toast from '../Inc/Toast.vue';
   let data = ref();
   let title = ref();
   let displayDetails = ref();
@@ -32,37 +33,35 @@
         data.value = null;
       },
       submit() {
-        if (data.value.id) {
-          form.post('/boards/' + data.value.id, {
+        let url = '/boards';
+        if (data.value.id) url += '/' + data.value.id;
+        form.post(url, {
             forceFormData: true,
             onError: (err) => {
               errors = err.msg;
             },
             onSuccess: () => {
-              console.log('ello');
+              Toast.show('Board saved successfully', 'success');
+              this.close();
             }
           })
-        } else {
-          form.post('/boards', {
-            forceFormData: true,
-            onError: (err) => {
-              errors = err.msg;
-            },
-            onSuccess: () => {
-              console.log('ello');
-            }
-          })
+      },
+      image(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          event.target.previousSibling.src = reader.result;
         }
       }
     }
   };
+
+
 </script>
 
 <script setup>
-
 // 
-
-
 </script>
 
 <template>
@@ -84,16 +83,22 @@
           <div :class="{ hidden: !displayDetails }">
             <div class="form-file form-icon">
               <label for="icon">
-                <img v-bind:src="form.icon" width="50" v-if="form.icon">
-                Icon
-                <input type="file" @input="form.icon = $event.target.files[0]" id="icon" placeholder="Icon" style="display: none;">
+                <span>Icon</span>
+                <img v-bind:src="form.icon" width="50" height="50" v-if="form.icon">
+                <input type="file"
+                  id="icon"
+                  @input="form.icon = $event.target.files[0]"
+                  @change="image($event)">
               </label>
             </div>
             <div class="form-file">
               <label for="background">
                 Background
                 <img v-bind:src="form.background">
-                <input type="file" @input="form.background = $event.target.files[0]"  id="background" placeholder="Background">
+                <input type="file"
+                  id="background"
+                  @input="form.background = $event.target.files[0]"
+                  @change="image($event)">
               </label>
             </div>
             <div class="flex">

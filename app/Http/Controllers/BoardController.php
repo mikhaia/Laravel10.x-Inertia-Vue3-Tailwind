@@ -26,40 +26,45 @@ class BoardController extends Controller
     }
 
     public function store(Request $request) {
-
-        // TODO: Add validation
-        /*
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'icon',
-            'background',
+            'icon' => 'image|mimes:jpg,jpeg,png|max:3072',
+            'background' => 'image|mimes:jpg,jpeg,png|max:3072',
             'public' => 'boolean',
             'dark' => 'boolean'
         ]);
 
-        if ($validator->fails()) {
-            dd($validator);
-            return redirect('post/create')
-                        ->withErrors($validator)
-                        ->withInput();
-                    }
-        */
-        // $data = $request->validate([
-        //     'title' => 'required',
-        //     'icon',
-        //     'background',
-        //     'public' => 'boolean',
-        //     'dark' => 'boolean'
-        // ]);
         $data = $request->input();
         $data['user_id'] = auth()->id();
+        // Icon
+        $data['icon'] = $this->changeImage('icon', 50, 50, $request);
+        // Background
+        $data['background'] = $this->changeImage('background', 1280, 720, $request);
+        
         $board = Board::create($data);
         return redirect()->route('boards.show', [$board->id])->with('success', 'Welcome to your new board!');
     }
 
     public function update(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'icon' => 'image|mimes:jpg,jpeg,png|max:3072',
+            'background' => 'image|mimes:jpg,jpeg,png|max:3072',
+            'public' => 'boolean',
+            'dark' => 'boolean'
+        ]);
+
         $data = $request->input();
         unset($data['_method']);
+        unset($data['background']);
+        unset($data['icon']);
+
+        $model = Board::find($id);
+        // Icon
+        $this->changeImage('icon', 50, 50, $request, $model);
+        // Background
+        $this->changeImage('background', 1280, 720, $request, $model);
+
         $board = Board::where('id', $id)->where('user_id', auth()->id())->update($data);
         return redirect()->route('boards.show', $id)->with('success', 'Your board has been updated!');
     }

@@ -18,7 +18,7 @@ function editColumn() {
 <template>
   <Layout>
     <Head title="Board " />
-    <div class="grid h-screen w-full board"
+    <div class="grid board"
         :style="[board?.background ? { backgroundImage: 'url('+board?.background+')'} : {}]">
         <div class="columns">
             <div v-for="column in columns" class="glass column">
