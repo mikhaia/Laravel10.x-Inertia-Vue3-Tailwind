@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\ColumnController;
 
 use App\Http\Controllers\User\SteamAuthController;
 use App\Http\Controllers\User\GoogleAuthController;
 use App\Http\Controllers\User\AuthController;
 use Inertia\Inertia;
 use App\Models\Board;
+use App\Models\Column;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,9 +45,16 @@ Route::get('logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {
   Inertia::share('boards', fn() => Board::where('user_id', Auth::id())->get());
+  Inertia::share('columns', function() {
+    if (Route::current()->parameters && Route::current()->parameters['board']) {
+      return Column::where('board_id', Route::current()->parameters['board'])->orderBy('position', 'asc')->get();
+    }
+  });
   Inertia::share('user', fn() => Auth::user());
 
-  Route::get('/', [IndexController::class, 'index']);
+  Route::get('/', [IndexController::class, 'index'])->name('index');
   Route::get('/users/{user}', [UserController::class, 'show']);
   Route::resource('boards', BoardController::class);
+  Route::resource('columns', ColumnController::class);
+  Route::put('columns/sort/{boardId}', [ColumnController::class, 'sort']);
 });

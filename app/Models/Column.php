@@ -13,6 +13,13 @@ class Column extends Model
     use HasFactory;
     use HasUlids;
 
+    protected $fillable = [
+        'title',
+        'board_id',
+        'position',
+        'public',
+    ];
+
     public function cards(): HasMany
     {
         return $this->hasMany(Card::class);

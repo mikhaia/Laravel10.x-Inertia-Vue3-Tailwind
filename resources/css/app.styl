@@ -22,8 +22,57 @@ body, #app
     float left
     width 300px
     max-height 100%
-    margin 0 10px
     padding-bottom 35px
+    &.add
+        height 100vh
+        position relative
+        cursor pointer
+        opacity .5
+        animate()
+        &:before
+            content '+'
+            background rgba(255,255,255,.5)
+            color #fff
+            border-radius 50%
+            font-size 100px
+            line-height 75px
+            abscenter(100, 100)
+        &:hover
+            opacity 1
+
+.droptarget
+    width 20px
+    height 100vh
+    float left
+    &.active
+        width 300px
+        height 100vh
+        padding 0 10px
+        &:after
+            content 'Insert here'
+            color #fff
+            text-shadow 0 0 3px #000
+            text-align center
+            background rgba(255, 255, 255, 0.2)
+            border-radius 10px
+            box-shadow 0 4px 30px rgba(0, 0, 0, 0.1)
+            backdrop-filter blur(5px)
+            -webkit-backdrop-filter blur(5px)
+            border 1px solid rgba(255, 255, 255, 0.3)
+            position block
+            padding 50px 20px
+            height 200px
+            font-size 21px
+            font-weight bold
+            display block
+            padding-bottom 35px
+
+.moving
+    opacity .4
+    .droptarget
+        visibility hidden
+        width 20px
+                
 
 .card
     margin 5px

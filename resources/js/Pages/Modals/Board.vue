@@ -6,12 +6,13 @@
   let title = ref();
   let displayDetails = ref();
   let form = ref();
+  let focus = ref();
   let errors = ref();
 
   export default {
     name: 'boardModal',
     setup() {
-      return {data, title};
+      return {data, title, focus};
     },
     methods: {
       open(value) {
@@ -28,13 +29,14 @@
         form = useForm(formData);
         data.value = value;
         title.value = value.title;
+        setTimeout(() => focus.value.focus(), 100);
       },
       close() {
         data.value = null;
       },
       submit() {
-        let url = '/boards';
-        if (data.value.id) url += '/' + data.value.id;
+        let url = '/boards/';
+        if (data.value.id) url += data.value.id;
         form.post(url, {
             forceFormData: true,
             onError: (err) => {
@@ -74,13 +76,13 @@
       <div class="modal-content">
         <form class="form" @submit.prevent="submit">
           <div class="form-input">
-            <input type="text" v-model="form.title" id="title" placeholder="Title">
+            <input type="text" v-model="form.title" id="title" placeholder="Title" ref="focus" autocomplete="off">
             <label for="title">Title</label>
           </div>
           <a class="cutter" @click="displayDetails = !displayDetails" :class="{expand: displayDetails}">
             <span class="icon">⏬</span> Details <span class="icon">⏬</span>
           </a>
-          <div :class="{ hidden: !displayDetails }">
+          <div v-show="displayDetails">
             <div class="form-file form-icon">
               <label for="icon">
                 <span>Icon</span>
