@@ -18,7 +18,7 @@ class CardController extends Controller
         $data['position'] = intval($data['position']);
         $data['progress'] = intval($data['progress']);
         // Cover
-        $data['cover'] = $this->changeImage('cover', 286, 166, $request);
+        $data['cover'] = $this->changeImage('cover', 286, 161, $request, null, true);
         
         $card = Card::create($data);
         return redirect()->back()->with('success', 'Card saved successfully!');
@@ -37,7 +37,7 @@ class CardController extends Controller
 
         $model = Card::find($id);
         // Cover
-        $this->changeImage('cover', 286, 166, $request, $model);
+        $this->changeImage('cover', 286, 161, $request, $model, true);
 
         $card = Card::where('id', $id)->update($data);
         return redirect()->back()->with('success', 'Card saved successfully!');
