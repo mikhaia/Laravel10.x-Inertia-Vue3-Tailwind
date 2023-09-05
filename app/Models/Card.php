@@ -10,4 +10,14 @@ class Card extends Model
 {
     use HasFactory;
     use HasUuids;
+
+    protected $fillable = [
+        'title',
+        'column_id',
+        'cover',
+        'description',
+        'progress',
+        'link',
+        'position',
+    ];
 }

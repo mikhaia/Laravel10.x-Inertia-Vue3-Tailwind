@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('column_id');
-            $table->string('cover');
-            $table->string('title');
-            $table->text('description');
+            $table->string('cover')->nullable();
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->tinyInteger('position')->default(0);
             $table->tinyInteger('progress')->default(0);
             $table->tinyInteger('calculation')->default(0);

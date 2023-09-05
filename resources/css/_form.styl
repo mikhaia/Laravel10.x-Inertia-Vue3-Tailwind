@@ -25,6 +25,23 @@
             left 10px
             top 25px
             cursor inherit
+    .form-textarea
+        textarea
+            outline none
+            padding 5px 10px
+            color #777
+            border 1px solid
+            border-radius 5px
+            width 100%
+            &:focus
+                box-shadow 0 0 5px #777
+                border-color #9a365c
+            &::placeholder
+                color #fff
+            &:not(:placeholder-shown) + label,
+            &:focus + label
+                top -5px
+                left 0px
     .cutter
         display block
         text-align center
@@ -47,7 +64,7 @@
             input
                 display none
             &:hover:before
-                // todo use pos
+                // TODO: use pos
                 content 'Click to change Image'
                 position absolute
                 display flex

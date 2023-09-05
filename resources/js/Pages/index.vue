@@ -1,14 +1,6 @@
 <script setup>
 import Layout from './Layout.vue'
 import { Head } from '@inertiajs/inertia-vue3';
-import showdown from 'showdown';
-
-//var showdown  = require('showdown');
-const converter = new showdown.Converter(),
-      text      = '# hello, markdown!',
-      html      = converter.makeHtml(text);
-      console.log('html', html);
-
 </script>
  
 <template>

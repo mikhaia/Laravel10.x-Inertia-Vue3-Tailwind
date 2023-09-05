@@ -1,8 +1,9 @@
 <script setup>
 import Layout from './Layout.vue'
+import cardModal from './Modals/Card.vue';
 import axios from 'axios'
 import { Head } from '@inertiajs/vue3'
-
+import showdown from 'showdown';
 
 import columnModal from './Modals/Column.vue';
 const props = defineProps({ board: Object, columns: Object })
@@ -11,6 +12,19 @@ const openModal = (data) => {
   columnModal.methods.open(data)
 }
 
+const openCardModal = (data) => {
+    cardModal.methods.open(data);
+}
+
+const converter = new showdown.Converter();
+converter.setOption('simpleLineBreaks', true);
+
+function toHtml(text) {
+  text = converter.makeHtml(text);
+  text = text.replace(/\[ \]/g, '<input type="checkbox" onclick="event.stopPropagation()">');
+  text = text.replace(/\[x\]/g, '<input type="checkbox" checked onclick="event.stopPropagation()">');
+  return text;
+}
 /* Drag'n'Drop */
 // TODO: Refactoring Drag'n'Drop
 document.addEventListener("dragstart", function(event) {
@@ -73,10 +87,16 @@ document.addEventListener("drop", function(event) {
                   <a class="float-right cursor-pointer" @click="openModal(column)">⚙️</a>
                   {{ column.title }}
                 </h4>
-                <div v-for="card in column.cards" class="card cursor-pointer shadow-md">
-                    <img :src="card.cover" />
-                    <h6 class="px-2 py-1 title">{{ card.title }}</h6>
-                </div>
+                <template v-for="card in column.cards">
+                  <!-- <Card :card="card"></Card> -->
+                  <div class="card cursor-pointer shadow-md" @click="openCardModal(card)">
+                      <img :src="card.cover" />
+                      <h6 class="px-2 py-1 title" :class="{'top-title': card.description || card.todo }">{{ card.title }}</h6>
+                      <div v-if="card.description" class="description" v-html="toHtml(card.description)"></div>
+                      <div v-if="card.todo" class="checklist">{{ card.todo }}</div>
+                  </div>
+                </template>
+                <a class="btn-create glass" @click="openCardModal({title: '', column_id: column.id})">Create new</a>
             </div>
             <div class="droptarget"></div>
           </div>
@@ -84,5 +104,6 @@ document.addEventListener("drop", function(event) {
         </div>
       </div>
       <columnModal></columnModal>
+      <cardModal></cardModal>
   </Layout>
 </template>

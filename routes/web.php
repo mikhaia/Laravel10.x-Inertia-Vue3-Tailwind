@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ColumnController;
+use App\Http\Controllers\CardController;
 
 use App\Http\Controllers\User\SteamAuthController;
 use App\Http\Controllers\User\GoogleAuthController;
@@ -57,4 +58,5 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('boards', BoardController::class);
   Route::resource('columns', ColumnController::class);
   Route::put('columns/sort/{boardId}', [ColumnController::class, 'sort']);
+  Route::resource('cards', CardController::class);
 });

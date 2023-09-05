@@ -3,8 +3,43 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Column;
+use App\Models\Card;
+use Illuminate\Support\Facades\Validator;
 
 class CardController extends Controller
 {
-    //
+    public function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'cover' => 'image|mimes:jpg,jpeg,png|max:3072',
+        ]);
+
+        $data = $request->input();
+        $data['position'] = intval($data['position']);
+        $data['progress'] = intval($data['progress']);
+        // Cover
+        $data['cover'] = $this->changeImage('cover', 286, 166, $request);
+        
+        $card = Card::create($data);
+        return redirect()->back()->with('success', 'Card saved successfully!');
+    }
+
+    public function update(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'cover' => 'image|mimes:jpg,jpeg,png|max:3072',
+        ]);
+
+        $data = $request->input();
+        $data['position'] = intval($data['position']);
+        $data['progress'] = intval($data['progress']);
+        unset($data['_method']);
+        unset($data['cover']);
+
+        $model = Card::find($id);
+        // Cover
+        $this->changeImage('cover', 286, 166, $request, $model);
+
+        $card = Card::where('id', $id)->update($data);
+        return redirect()->back()->with('success', 'Card saved successfully!');
+    }
 }
