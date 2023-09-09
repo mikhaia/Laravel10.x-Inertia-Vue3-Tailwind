@@ -17,15 +17,20 @@
 
 3. Install NPM packages
 `npm install`
+Note: Node.js should be installed: https://nodejs.org/
 
-4. Made your own **.env**-file\
+4. Install composer packages
+`composer install`
+Note: Composer should be installed: https://getcomposer.org/download/
+
+5. Made your own **.env**-file\
 `cp .env.example .env`\
 `php artisan key:generate`
 
-5. [*Optional*] Update the created **.env**-file with your needs.\
+6. [*Optional*] Update the created **.env**-file with your needs.\
 For example if you need SQLite update to `DB_CONNECTION=sqlite`
 
-6. [*Optional*] Run migrations and seeds\
+7. [*Optional*] Run migrations and seeds\
 `php artisan migrate:refresh --seed`
 
 # 🚀 Start

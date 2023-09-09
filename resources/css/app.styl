@@ -1,3 +1,4 @@
+@require '_icon'
 @require '_conf'
 @require '_sidebar'
 @require '_form'
@@ -17,6 +18,12 @@ body, #app
 .columns
     padding 10px
     height 100vh
+    white-space nowrap
+    overflow-x auto
+    .drag, .add, .column, .droptarget
+        display inline-block
+        float none
+        vertical-align top
 
 .column
     float left
