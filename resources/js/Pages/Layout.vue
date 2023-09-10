@@ -12,7 +12,7 @@ const openModal = (data) => {
 <template>
 <Toast></Toast>
 <div class="h-screen">
-  <aside class="bg-gray-800 absolute z-10 h-screen sidebar">
+  <aside class="bg-gray-800 z-10 h-screen sidebar">
       <h1 class="text-white	text-4xl font-bold text-center py-4">{{ page.props.appName }}</h1>
       <nav class="sidenav">
         <li>

@@ -25,6 +25,28 @@ function toHtml(text) {
   text = text.replace(/\[x\]/g, '<input type="checkbox" checked onclick="event.stopPropagation()">');
   return text;
 }
+
+function toTodo(text) {
+  const list = text.match(/[^\r\n]+/g);
+  const todo = [];
+  const result = [];
+  list.forEach(item => {
+    const trimed = item.trim()
+    const text = trimed.charAt(0) === '-' || trimed.charAt(0) === '+' ? trimmed.substring(1) : trimed;
+    todo.push({
+      done: trimed[0] === '+',
+      text: text,
+      lvl: 'todo' 
+    });
+    console.log(item.trim()[0]);
+    // item = item.replace(/\s/g, '&nbsp;');
+    // item = item.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+    // todo.push('<input type="checkbox"> ' + item);
+  });
+  return text;
+  // return todo.join('<br />');
+}
+
 /* Drag'n'Drop */
 // TODO: Refactoring Drag'n'Drop
 document.addEventListener("dragstart", function(event) {
@@ -77,7 +99,7 @@ document.addEventListener("drop", function(event) {
 <template>
   <Layout>
     <Head title="Board " />
-    <div class="grid board"
+    <div class="board"
         :style="[board?.background ? { backgroundImage: 'url('+board?.background+')'} : {}]">
         <div class="columns drag-container">
           <!-- TODO: Add droptaget to fisrt place <div class="droptarget"></div> -->
@@ -93,7 +115,7 @@ document.addEventListener("drop", function(event) {
                       <img :src="card.cover" />
                       <h6 class="px-2 py-1 title" :class="{'top-title': card.description || card.todo }">{{ card.title }}</h6>
                       <div v-if="card.description" class="description" v-html="toHtml(card.description)"></div>
-                      <div v-if="card.todo" class="checklist">{{ card.todo }}</div>
+                      <div v-if="card.todo" class="checklist" v-html="toTodo(card.todo)"></div>
                   </div>
                 </template>
                 <a class="btn-create glass" @click="openCardModal({title: '', column_id: column.id})">Create new</a>

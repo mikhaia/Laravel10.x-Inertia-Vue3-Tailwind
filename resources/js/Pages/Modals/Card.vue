@@ -21,6 +21,7 @@
           cover: value.cover,
           position: value.position,
           progress: value.progress,
+          todo: value.todo,
           description: value.description,
           column_id: value.column_id
         };
@@ -74,6 +75,12 @@ function textareaKeys(e) {
 </script>
 
 <script setup>
+const todoExample = 
+`Example:
+- An undone task
++ Finished group
+  + Finished item
+`;
 // 
 </script>
 
@@ -105,12 +112,16 @@ function textareaKeys(e) {
                   @change="image($event)">
               </label>
           </div>
+          <div class="form-input form-textarea">
+            <textarea type="text" v-model="form.description" id="description" placeholder="Description" @keydown="textareaKeys($event)"></textarea>
+            <label for="description">Description</label>
+          </div>
         </div>
         <div class="flex-1">
           <div class="flex flex-col h-full">
-            <div class="form-input form-textarea flex-1">
-              <textarea type="text" v-model="form.description" id="description" placeholder="Description" class="h-full" @keydown="textareaKeys($event)"></textarea>
-              <label for="description">Description</label>
+            <div class="form-textarea form-todo flex-1">
+              <label for="todo">Todo:</label>
+              <textarea v-model="form.todo" id="todo" :placeholder="todoExample" @keydown="textareaKeys($event)"></textarea>
             </div>
             <div>
               <button type="submit" class="button w-full">Save</button>

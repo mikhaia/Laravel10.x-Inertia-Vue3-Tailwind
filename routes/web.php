@@ -47,7 +47,7 @@ Route::get('logout', [AuthController::class, 'logout']);
 Route::middleware(['auth'])->group(function () {
   Inertia::share('boards', fn() => Board::where('user_id', Auth::id())->get());
   Inertia::share('columns', function() {
-    if (Route::current()->parameters && Route::current()->parameters['board']) {
+    if (Route::current()->parameters && isset(Route::current()->parameters['board'])) {
       return Column::where('board_id', Route::current()->parameters['board'])->orderBy('position', 'asc')->get();
     }
   });
