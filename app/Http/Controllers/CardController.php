@@ -42,4 +42,10 @@ class CardController extends Controller
         $card = Card::where('id', $id)->update($data);
         return redirect()->back()->with('success', 'Card saved successfully!');
     }
+
+    public function todo(Request $request, $cardId) {
+        $data = ['todo' => $request->input('todo')];
+        Card::find($cardId)->update($data);
+        return ['success' => 'Todo saved successfully!'];
+    }
 }

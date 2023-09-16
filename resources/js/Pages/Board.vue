@@ -29,22 +29,47 @@ function toHtml(text) {
 function toTodo(text) {
   const list = text.match(/[^\r\n]+/g);
   const todo = [];
-  const result = [];
+
   list.forEach(item => {
-    const trimed = item.trim()
-    const text = trimed.charAt(0) === '-' || trimed.charAt(0) === '+' ? trimmed.substring(1) : trimed;
-    todo.push({
+    let trimed = item.trim();
+    // Fix missing minus sign
+    if (trimed.charAt(0) !== '-' && trimed.charAt(0) !== '+') {
+      trimed = '- ' + trimed;
+    }
+
+    // Getting level of tabs
+    let lvl;
+    for(lvl = 0; lvl < item.length; lvl++) {
+      if (item[lvl] !== '\t') break;
+    }
+
+    const line = {
       done: trimed[0] === '+',
-      text: text,
-      lvl: 'todo' 
-    });
-    console.log(item.trim()[0]);
-    // item = item.replace(/\s/g, '&nbsp;');
-    // item = item.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
-    // todo.push('<input type="checkbox"> ' + item);
+      text: trimed.substring(1).trim(),
+      lvl: lvl
+    };
+
+    todo.push(`<div>${'<i class="mx-2"></i>'.repeat(line.lvl)}<label class="cursor-pointer"><input type="checkbox" ${line.done?'checked':''}> ${line.text}</label></div>`);
   });
-  return text;
-  // return todo.join('<br />');
+  return todo.join('');
+}
+
+function stop(event) {
+  event.stopPropagation();
+}
+
+function changeTodo(event, id) {
+  const items = event.currentTarget.children;
+  const todo = [];
+  for(let i=0; i < items.length; i++) {
+    const isChecked = items[i].querySelector('input').checked;
+    const text = items[i].querySelector('label').innerText.trim();
+    const lvl = items[i].querySelectorAll('i.mx-2').length;
+    todo.push(`${'\t'.repeat(lvl)}${isChecked?'+':'-'} ${text}`);
+  }
+  const result = todo.join("\n");
+  axios.put('/cards/todo/' + id, {'todo': result});
+  return result;
 }
 
 /* Drag'n'Drop */
@@ -101,6 +126,10 @@ document.addEventListener("drop", function(event) {
     <Head title="Board " />
     <div class="board"
         :style="[board?.background ? { backgroundImage: 'url('+board?.background+')'} : {}]">
+        <div class="header">
+          <img :src="board?.icon">
+          <b>{{ board.title }}</b>
+        </div>
         <div class="columns drag-container">
           <!-- TODO: Add droptaget to fisrt place <div class="droptarget"></div> -->
           <div v-for="column in columns" draggable="true" :id="column.id" class="drag">
@@ -115,7 +144,11 @@ document.addEventListener("drop", function(event) {
                       <img :src="card.cover" />
                       <h6 class="px-2 py-1 title" :class="{'top-title': card.description || card.todo }">{{ card.title }}</h6>
                       <div v-if="card.description" class="description" v-html="toHtml(card.description)"></div>
-                      <div v-if="card.todo" class="checklist" v-html="toTodo(card.todo)"></div>
+                      <div v-if="card.todo"
+                        class="checklist p-2 cursor-default"
+                        v-html="toTodo(card.todo)"
+                        @click="stop($event)"
+                        @change="card.todo = changeTodo($event, card.id)"></div>
                   </div>
                 </template>
                 <a class="btn-create glass" @click="openCardModal({title: '', column_id: column.id})">Create new</a>

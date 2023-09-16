@@ -37,7 +37,7 @@ class BoardController extends Controller
         $data = $request->input();
         $data['user_id'] = auth()->id();
         // Icon
-        $data['icon'] = $this->changeImage('icon', 50, 50, $request);
+        $data['icon'] = $this->changeImage('icon', 50, 50, $request, null, true);
         // Background
         $data['background'] = $this->changeImage('background', 1280, 720, $request);
         
@@ -61,7 +61,7 @@ class BoardController extends Controller
 
         $model = Board::find($id);
         // Icon
-        $this->changeImage('icon', 50, 50, $request, $model);
+        $this->changeImage('icon', 50, 50, $request, $model, true);
         // Background
         $this->changeImage('background', 1280, 720, $request, $model);
 

@@ -26,6 +26,9 @@
         }
 
         positions = page.props.columns;
+        if (!positions.length) {
+          formData.position = -1;
+        }
 
         form = useForm(formData);
         data.value = value;
@@ -83,7 +86,7 @@
           <div class="form-select">
             <select v-model="form.position" id="position">
               <option v-if="data.id" :value="data.position">Don't change</option>
-              <option value="-1" v-if="data.id != positions[0].id">First</option>
+              <option value="-1" v-if="!positions.length || data.id != positions[0].id">First</option>
               <template  v-for="item in positions">
                 <option
                 v-if="data.id != item.id"

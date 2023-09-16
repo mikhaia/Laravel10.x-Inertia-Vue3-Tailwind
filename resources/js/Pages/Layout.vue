@@ -16,7 +16,7 @@ const openModal = (data) => {
       <h1 class="text-white	text-4xl font-bold text-center py-4">{{ page.props.appName }}</h1>
       <nav class="sidenav">
         <li>
-          <a @click="openModal({title: 'New Board'})" class="cursor-pointer">
+          <a @click="openModal({title: 'New Board'})" class="cursor-pointer" id="create-board">
             <span class="icon"><i class="gg-add-r"></i></span>
             <span class="name">Create New Board</span>
           </a>

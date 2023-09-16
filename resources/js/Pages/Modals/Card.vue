@@ -42,6 +42,7 @@
       },
       submit() {
         let url = '/cards/';
+        form.todo = document.getElementById('todo').value;
         if (data.value.id) url += data.value.id;
         form.post(url, {
             forceFormData: true,

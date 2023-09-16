@@ -37,6 +37,8 @@ Inertia::share('toast', function() {
 });
 */
 
+// dd(Config::get('lang'));
+
 
 Route::get('auth', [AuthController::class, 'index'])->name('login');
 Route::post('auth', [AuthController::class, 'login']);
@@ -54,9 +56,12 @@ Route::middleware(['auth'])->group(function () {
   Inertia::share('user', fn() => Auth::user());
 
   Route::get('/', [IndexController::class, 'index'])->name('index');
+  Route::get('author', [IndexController::class, 'author'])->name('author');
+  Route::get('about', [IndexController::class, 'about'])->name('about');
   Route::get('/users/{user}', [UserController::class, 'show']);
   Route::resource('boards', BoardController::class);
   Route::resource('columns', ColumnController::class);
   Route::put('columns/sort/{boardId}', [ColumnController::class, 'sort']);
   Route::resource('cards', CardController::class);
+  Route::put('cards/todo/{cardId}', [CardController::class, 'todo']);
 });
