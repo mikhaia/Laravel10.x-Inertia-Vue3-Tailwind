@@ -19,11 +19,14 @@ class Controller extends BaseController
             $filepath = $file->path();
             $extension = $file->extension();
         } elseif ($filepath = $request->input($name)) {
-            $imginfo = getimagesize($filepath);
-            switch($imginfo['mime']) {
-                case 'image/png': $extension = 'png'; break;
-                case 'image/jpeg': $extension = 'jpeg'; break;
-                case 'image/webp': $extension = 'webp'; break;
+            $imginfo = @getimagesize($filepath);
+            $extension = null;
+            if ($imginfo) {
+                switch($imginfo['mime']) {
+                    case 'image/png': $extension = 'png'; break;
+                    case 'image/jpeg': $extension = 'jpeg'; break;
+                    case 'image/webp': $extension = 'webp'; break;
+                }
             }
         }
 

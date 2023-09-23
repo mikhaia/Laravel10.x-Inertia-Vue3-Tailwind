@@ -61,4 +61,11 @@ class CardController extends Controller
             return readfile($remoteImage);
         }
     }
+
+    public function sort(Request $request, $columnId, $cardId) {
+        Card::find($cardId)->update(['column_id' => $columnId]);
+        foreach($request->input() as $position => $id) {
+            Card::find($id)->update(['position' => $position]);
+        }
+    }
 }

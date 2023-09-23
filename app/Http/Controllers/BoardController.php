@@ -16,9 +16,10 @@ class BoardController extends Controller
 
     public function show($id) {
         $board = Board::find($id);
-        $columns = Column::where('board_id', $id)->orderBy('position', 'asc')->get();
-        foreach ($columns as &$column)
-            $column->cards = $column->cards;
+        $columns = Column::where('board_id', $id)
+            ->with(['cards' => function($q) { $q->orderBy('position', 'asc'); }])
+            ->orderBy('position', 'asc')
+            ->get();
         return Inertia::render('Board', [
             'board' => $board,
             'columns' => $columns

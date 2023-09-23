@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
   Route::put('columns/sort/{boardId}', [ColumnController::class, 'sort']);
   Route::resource('cards', CardController::class);
   Route::put('cards/todo/{cardId}', [CardController::class, 'todo']);
+  Route::put('cards/sort/{columndId}/{cardId}', [CardController::class, 'sort']);
   Route::get('geturldata', [CardController::class, 'geturldata']);
   Route::get('getimage', [CardController::class, 'getimage']);
 });

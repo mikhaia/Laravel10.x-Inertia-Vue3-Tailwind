@@ -13,7 +13,7 @@ const openModal = (data) => {
 <Toast></Toast>
 <div class="h-screen">
   <aside class="bg-gray-800 z-10 h-screen sidebar">
-      <h1 class="text-white	text-4xl font-bold text-center py-4">{{ page.props.appName }}</h1>
+      <h1 class="text-white text-2xl font-bold text-center py-4">{{ page.props.appName }}</h1>
       <nav class="sidenav">
         <li>
           <a @click="openModal({title: 'New Board'})" class="cursor-pointer" id="create-board">

@@ -28,6 +28,13 @@
         positions = page.props.columns;
         if (!positions.length) {
           formData.position = -1;
+        } else {
+          formData.position = 0;
+          for(let item in positions) {
+            if (positions[item].position > formData.position)
+              formData.position = positions[item].position;
+          }
+          formData.position++;
         }
 
         form = useForm(formData);
