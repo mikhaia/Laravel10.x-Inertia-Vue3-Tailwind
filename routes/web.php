@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
   Route::get('about', [IndexController::class, 'about'])->name('about');
   Route::get('/users/{user}', [UserController::class, 'show']);
   Route::resource('boards', BoardController::class);
+  Route::put('boards/switch/{boardId}', [BoardController::class, 'switch']);
   Route::resource('columns', ColumnController::class);
   Route::put('columns/sort/{boardId}', [ColumnController::class, 'sort']);
   Route::resource('cards', CardController::class);

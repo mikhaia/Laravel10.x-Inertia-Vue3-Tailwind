@@ -75,7 +75,7 @@
       </div>
       <div class="modal-content">
         <form class="form" @submit.prevent="submit">
-          <div class="form-input">
+          <div class="form-input pt-5 pb-2.5">
             <input type="text" v-model="form.title" id="title" placeholder="Title" ref="focus" autocomplete="off">
             <label for="title">Title</label>
           </div>
@@ -83,7 +83,7 @@
             <span class="icon">⏬</span> Details <span class="icon">⏬</span>
           </a>
           <div v-show="displayDetails">
-            <div class="form-file form-icon">
+            <div class="form-file py-2.5 form-icon">
               <label for="icon">
                 <span>Icon</span>
                 <img v-bind:src="form.icon" width="50" height="50" v-if="form.icon">
@@ -93,7 +93,7 @@
                   @change="image($event)">
               </label>
             </div>
-            <div class="form-file">
+            <div class="form-file py-2.5">
               <label for="background">
                 Background
                 <img v-bind:src="form.background">
@@ -104,13 +104,13 @@
               </label>
             </div>
             <div class="flex">
-              <div class="form-checkbox flex-1">
+              <div class="form-checkbox flex-1 pb-2.5">
                 <label>
                   <input type="checkbox" v-model="form.public">
                   Public
                 </label>
               </div>
-              <div class="form-checkbox flex-1">
+              <div class="form-checkbox flex-1 pb-2.5">
                 <label>
                   <input type="checkbox" v-model="form.dark">
                   Dark back

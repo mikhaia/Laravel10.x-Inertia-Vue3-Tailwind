@@ -4,6 +4,7 @@ import cardModal from './Modals/Card.vue';
 import axios from 'axios'
 import { Head } from '@inertiajs/vue3'
 import showdown from 'showdown';
+import { ref } from 'vue';
 
 import columnModal from './Modals/Column.vue';
 const props = defineProps({ board: Object, columns: Object })
@@ -119,16 +120,28 @@ document.addEventListener("drop", function(event) {
         axios.put('/columns/sort/'+props.board.id, order);
     }
 });
+
+let isLight = ref(props.board.dark);
+function switchMode() {
+  isLight.value = !isLight.value;
+  axios.put('/boards/switch/'+props.board.id, {'dark': isLight.value});
+}
 </script>
 
 <template>
   <Layout>
-    <Head title="Board " />
-    <div class="board"
+    <Head :title="'Board / ' + board.title" />
+    <div class="board" :class="isLight ? 'mode-light' : 'mode-dark'"
         :style="[board?.background ? { backgroundImage: 'url('+board?.background+')'} : {}]">
         <div class="header">
-          <img :src="board?.icon">
-          <b>{{ board.title }}</b>
+          <img :src="board?.icon" class="icon">
+          <h1>{{ board.title }}</h1>
+          <div class="toggle-switch">
+            <label>
+                <input type="checkbox" @click="switchMode()" :checked="!isLight">
+                <span class="slider"></span>
+            </label>
+          </div>
         </div>
         <div class="columns drag-container">
           <!-- TODO: Add droptaget to fisrt place <div class="droptarget"></div> -->

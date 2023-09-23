@@ -79,7 +79,7 @@
       </div>
       <div class="modal-content">
         <form class="form" @submit.prevent="submit">
-          <div class="form-input">
+          <div class="form-input pt-5 pb-2.5">
             <input type="text" v-model="form.title" id="title" placeholder="Title" ref="focus">
             <label for="title">Title</label>
           </div>

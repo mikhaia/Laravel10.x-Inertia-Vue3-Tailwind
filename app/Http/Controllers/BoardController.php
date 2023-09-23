@@ -68,4 +68,10 @@ class BoardController extends Controller
         $board = Board::where('id', $id)->where('user_id', auth()->id())->update($data);
         return redirect()->route('boards.show', $id)->with('success', 'Your board has been updated!');
     }
+
+    public function switch(Request $request, $boardId) {
+        Board::find($boardId)->update(['dark' => $request->input('dark')]);
+        $msg = ($request->input('dark') ? 'Dark' : 'Light') . ' mode is on!';
+        return ['success' => $msg];
+    }
 }

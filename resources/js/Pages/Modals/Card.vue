@@ -56,12 +56,7 @@
           })
       },
       image(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          event.target.previousSibling.src = reader.result;
-        }
+        changeCover(event.target.files);
       }
     }
   };
@@ -73,6 +68,22 @@ function textareaKeys(e) {
     e.preventDefault();
   }
 }
+
+function changeCover(files) {
+  const file = files[0];
+  if (file.type === 'image/png' || file.type === 'image/jpeg') {
+    form.cover = file;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      document.getElementById('cover').previousSibling.src = reader.result;
+    }
+  }
+}
+
+window.addEventListener('paste', event => {
+  changeCover(event.clipboardData.files);
+})
 </script>
 
 <script setup>
@@ -95,15 +106,19 @@ const todoExample =
       <div class="modal-content">
         <form class="form flex gap-5" @submit.prevent="submit">
           <div class="flex-1">
-          <div class="form-input">
+          <div class="form-input pt-5 pb-2.5">
             <input type="text" v-model="form.link" id="link" placeholder="Link" ref="focus">
             <label for="link">Link (Will try to fill the empty fields)</label>
           </div>
-          <div class="form-input">
+          <div class="form-input pt-5 pb-2.5">
             <input type="text" v-model="form.title" id="title" placeholder="Title">
             <label for="title">Title</label>
           </div>
-          <div class="form-file">
+          <div class="form-input form-textarea pt-5">
+            <textarea type="text" v-model="form.description" id="description" placeholder="Description" @keydown="textareaKeys($event)"></textarea>
+            <label for="description">Description</label>
+          </div>
+          <div class="form-file pt-2.5">
               <label for="cover">
                 Cover
                 <img v-bind:src="form.cover">
@@ -113,15 +128,11 @@ const todoExample =
                   @change="image($event)">
               </label>
           </div>
-          <div class="form-input form-textarea">
-            <textarea type="text" v-model="form.description" id="description" placeholder="Description" @keydown="textareaKeys($event)"></textarea>
-            <label for="description">Description</label>
-          </div>
         </div>
         <div class="flex-1">
-          <div class="flex flex-col h-full">
+          <div class="flex flex-col h-full gap-3">
             <div class="form-textarea form-todo flex-1">
-              <label for="todo">Todo:</label>
+              <label for="todo" class="leading-5">Todo:</label>
               <textarea v-model="form.todo" id="todo" :placeholder="todoExample" @keydown="textareaKeys($event)"></textarea>
             </div>
             <div>

@@ -46,11 +46,11 @@ function submit() {
         <div class="modal-content">
           <form class="form" @submit.prevent="submit()">
             <div class="msg-error" v-if="error">{{ error }}</div>
-            <div class="form-input">
+            <div class="form-input pt-5 pb-2.5">
               <input type="email" v-model="form.email" id="email" placeholder="Email">
               <label for="email">E-mail</label>
             </div>
-            <div class="form-input">
+            <div class="form-input pt-5 pb-2.5">
               <input type="password" v-model="form.password" id="password" placeholder="Password">
               <label for="password">Password</label>
             </div>

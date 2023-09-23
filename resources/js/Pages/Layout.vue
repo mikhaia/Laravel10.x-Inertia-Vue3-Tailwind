@@ -47,6 +47,8 @@ const openModal = (data) => {
     
     <main class="relative main">
       <div class="user-panel">
+        <img v-if="page.props.user.avatar" :src="page.props.user.avatar" class="avatar" />
+        <img v-else src="/data/avatar/avatar.jpg" class="avatar">
         {{ page.props.user.name }}
         <Link href="/logout" class="exit">x</Link>
       </div>
