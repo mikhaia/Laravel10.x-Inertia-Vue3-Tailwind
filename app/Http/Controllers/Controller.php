@@ -14,10 +14,22 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     public function changeImage($name, $width, $height, $request, $model = null, $crop = false) {
-        if($request->hasFile($name)) {
+        if ($request->hasFile($name)) {
             $file = $request->file($name);
-            $value = '/data/'.$name.'/'.auth()->id().time().'.'.$file->extension();
-            $img = Image::make($file->path());
+            $filepath = $file->path();
+            $extension = $file->extension();
+        } elseif ($filepath = $request->input($name)) {
+            $imginfo = getimagesize($filepath);
+            switch($imginfo['mime']) {
+                case 'image/png': $extension = 'png'; break;
+                case 'image/jpeg': $extension = 'jpeg'; break;
+                case 'image/webp': $extension = 'webp'; break;
+            }
+        }
+
+        if($filepath && $extension) {
+            $value = '/data/'.$name.'/'.auth()->id().time().'.'.$extension;
+            $img = Image::make($filepath);
             if ($crop) {
                 $img->fit($width, $height, function ($const) {
                     $const->upsize();

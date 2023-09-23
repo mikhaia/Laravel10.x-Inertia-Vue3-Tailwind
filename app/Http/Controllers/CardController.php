@@ -48,4 +48,17 @@ class CardController extends Controller
         Card::find($cardId)->update($data);
         return ['success' => 'Todo saved successfully!'];
     }
+
+    public function geturldata(Request $request) {
+        return file_get_contents($request->input('url'));
+    }
+
+    public function getimage(Request $request) {
+        $remoteImage = $request->input('url');
+        $imginfo = @getimagesize($remoteImage);
+        if ($imginfo && in_array($imginfo['mime'], ['image/png', 'image/jpeg', 'image/webp'])) {
+            header("Content-type: {$imginfo['mime']}");
+            return readfile($remoteImage);
+        }
+    }
 }

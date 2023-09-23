@@ -17,6 +17,7 @@
     methods: {
       open(value) {
         const formData = {
+          link: value.link,
           title: value.title,
           cover: value.cover,
           position: value.position,
@@ -25,11 +26,11 @@
           description: value.description,
           column_id: value.column_id
         };
-        console.log(formData);
         if (value.id) {
           formData._method = 'PUT';
         }
 
+        // TODO: Add positions by Drag'n'Drop
         positions = page.props.columns;
 
         form = useForm(formData);
@@ -47,7 +48,7 @@
         form.post(url, {
             forceFormData: true,
             onError: (err) => {
-              errors = err.msg;
+              errors.value = err.msg;
             },
             onSuccess: () => {
               Toast.show('Card saved successfully', 'success');
@@ -57,9 +58,41 @@
       },
       image(event) {
         changeCover(event.target.files);
+      },
+      changeLink(event) {
+        const url = event.target.value;
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+          axios('/geturldata', {
+            params: { url }
+          }).then(function(response) {
+            const html = document.createElement('html');
+            html.innerHTML = response.data;
+            if (!form.title)
+              form.title = getMetaData(html, 'title');
+            if (!form.description)
+              form.description = getMetaData(html, 'description');
+            if (!form.cover)
+              form.cover = getMetaData(html, 'image');
+          });
+        }
       }
     }
   };
+
+function getMetaData(html, prop) {
+  let result;
+  if (prop === 'title')
+    result = html.querySelector('title').innerText;
+  if (prop === 'description')
+    result = html.querySelector('meta[name="description"]').getAttribute('content');
+
+  if (!result)
+    result = html.querySelector('meta[name="twitter:'+prop+'"]').getAttribute('content');
+  if (!result)
+    result = html.querySelector('meta[property="og:image"]').getAttribute('content');
+
+  return result;
+}
 
 function textareaKeys(e) {
   const target = e.target;
@@ -71,6 +104,7 @@ function textareaKeys(e) {
 
 function changeCover(files) {
   const file = files[0];
+  if (!file) return;
   if (file.type === 'image/png' || file.type === 'image/jpeg') {
     form.cover = file;
     const reader = new FileReader();
@@ -81,8 +115,25 @@ function changeCover(files) {
   }
 }
 
+function getImage(url) {
+  return '/getimage?url=' + url;
+}
+
 window.addEventListener('paste', event => {
-  changeCover(event.clipboardData.files);
+  if (data.value) {
+    const url = event.clipboardData.getData("text");
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      const img = getImage(url);
+      axios(img).then(function(response) {
+        if (response.data) {
+          form.cover = img; 
+        }
+      });
+
+    } else if (event.clipboardData.files) {
+      changeCover(event.clipboardData.files);
+    }
+  }
 })
 </script>
 
@@ -107,7 +158,7 @@ const todoExample =
         <form class="form flex gap-5" @submit.prevent="submit">
           <div class="flex-1">
           <div class="form-input pt-5 pb-2.5">
-            <input type="text" v-model="form.link" id="link" placeholder="Link" ref="focus">
+            <input type="text" v-model="form.link" id="link" placeholder="Link" ref="focus" @change="changeLink($event)">
             <label for="link">Link (Will try to fill the empty fields)</label>
           </div>
           <div class="form-input pt-5 pb-2.5">
@@ -120,7 +171,7 @@ const todoExample =
           </div>
           <div class="form-file pt-2.5">
               <label for="cover">
-                Cover
+                Cover (Ctrl+V put image from clipboard)
                 <img v-bind:src="form.cover">
                 <input type="file"
                   id="cover"
