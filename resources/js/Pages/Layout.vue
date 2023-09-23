@@ -31,8 +31,8 @@ const openModal = (data) => {
         </li>
         <li :class="{'active' : $page.component === 'Index' }">
           <Link href="/">
-            <span class="icon"><i class="gg-home-alt"></i></span>
-            <span class="name">Home</span>
+            <span class="icon"><i class="gg-board"></i></span>
+            <span class="name">Dashboard</span>
           </Link>
         </li>
         <li :class="{'active' :$page.url.startsWith('/users/1') }">

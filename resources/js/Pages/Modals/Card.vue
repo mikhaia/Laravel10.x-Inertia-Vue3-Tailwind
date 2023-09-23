@@ -158,11 +158,11 @@ const todoExample =
         <form class="form flex gap-5" @submit.prevent="submit">
           <div class="flex-1">
           <div class="form-input pt-5 pb-2.5">
-            <input type="text" v-model="form.link" id="link" placeholder="Link" ref="focus" @change="changeLink($event)">
+            <input type="text" v-model="form.link" id="link" placeholder="Link" @change="changeLink($event)">
             <label for="link">Link (Will try to fill the empty fields)</label>
           </div>
           <div class="form-input pt-5 pb-2.5">
-            <input type="text" v-model="form.title" id="title" placeholder="Title">
+            <input type="text" v-model="form.title" id="title" placeholder="Title" ref="focus">
             <label for="title">Title</label>
           </div>
           <div class="form-input form-textarea pt-5">
@@ -171,7 +171,7 @@ const todoExample =
           </div>
           <div class="form-file pt-2.5">
               <label for="cover">
-                Cover (Ctrl+V put image from clipboard)
+                Cover (Click or Ctrl+V to change)
                 <img v-bind:src="form.cover">
                 <input type="file"
                   id="cover"
