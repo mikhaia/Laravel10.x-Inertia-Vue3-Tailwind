@@ -35,13 +35,6 @@ const openModal = (data) => {
             <span class="name">Dashboard</span>
           </Link>
         </li>
-        <li :class="{'active' :$page.url.startsWith('/users/1') }">
-          <Link href="/users/1">
-            <span class="icon"><i class="gg-user"></i></span>
-            <span class="name">User</span>
-          </Link>
-        </li>
-        <li><a></a></li>
       </nav>
     </aside>
     

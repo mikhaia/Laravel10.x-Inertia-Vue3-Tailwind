@@ -9,8 +9,11 @@ class UserController extends Controller
 {
     public function show($userId)
     {
+      exit();
+      /*
       return Inertia::render('Show', [
           'user' => Auth::user()
       ]);
+      */
     }
 }

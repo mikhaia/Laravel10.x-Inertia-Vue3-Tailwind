@@ -58,7 +58,6 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/', [IndexController::class, 'index'])->name('index');
   Route::get('author', [IndexController::class, 'author'])->name('author');
   Route::get('about', [IndexController::class, 'about'])->name('about');
-  Route::get('/users/{user}', [UserController::class, 'show']);
   Route::resource('boards', BoardController::class);
   Route::put('boards/switch/{boardId}', [BoardController::class, 'switch']);
   Route::resource('columns', ColumnController::class);
