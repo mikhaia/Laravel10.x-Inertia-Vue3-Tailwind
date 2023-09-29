@@ -42,9 +42,9 @@
         data.value = null;
       },
       submit() {
-        let url = '/cards/';
+        let url = '/cards';
+        if (data.value.id) url += '/' + data.value.id;
         form.todo = document.getElementById('todo').value;
-        if (data.value.id) url += data.value.id;
         form.post(url, {
             forceFormData: true,
             onError: (err) => {

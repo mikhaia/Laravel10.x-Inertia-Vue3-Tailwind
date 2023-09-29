@@ -35,8 +35,8 @@
         data.value = null;
       },
       submit() {
-        let url = '/boards/';
-        if (data.value.id) url += data.value.id;
+        let url = '/boards';
+        if (data.value.id) url += '/' + data.value.id;
         form.post(url, {
             forceFormData: true,
             onError: (err) => {
